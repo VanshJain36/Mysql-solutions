@@ -1,4 +1,4 @@
-175. Combine two tables
+-- 175. Combine two tables
 
 select firstName, lastName, city, state 
 from person p 
@@ -6,7 +6,7 @@ left join address a
 on (p.personId = a.personId);
 
 
-181. employees earning more than their anagers
+-- 181. employees earning more than their anagers
 
 select name as Employee 
 from employee as e 
