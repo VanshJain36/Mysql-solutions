@@ -31,3 +31,14 @@ orders o on
 (c.id = o.customerId) 
 where 
 o.id is Null;
+
+-- 196. Delete duplicate emails
+
+delete p1 from person p1, person p2 where p1.email = p2.email and p1.id > p2.id;
+
+-- 511. Game play analysis
+
+select player_id, 
+min(event_date) 
+as first_login 
+from activity group by player_id;
