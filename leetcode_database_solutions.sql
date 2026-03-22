@@ -5,7 +5,6 @@ from person p
 left join address a 
 on (p.personId = a.personId);
 
-
 -- 181. employees earning more than their anagers
 
 select name as Employee 
@@ -42,3 +41,18 @@ select player_id,
 min(event_date) 
 as first_login 
 from activity group by player_id;
+
+-- 5885. Customer placing the largest number of orders
+
+select customer_number 
+from orders 
+group by customer_number 
+order by count(order_number) 
+desc limit 1;
+
+-- 596. Classes whith atleast 5 students
+
+select class 
+from courses 
+group by class 
+having count(student) >= 5;
