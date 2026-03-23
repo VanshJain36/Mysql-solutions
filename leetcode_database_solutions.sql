@@ -56,3 +56,18 @@ select class
 from courses 
 group by class 
 having count(student) >= 5;
+
+-- 607. Sales Person
+
+with red_sales as(
+    select o.sales_id 
+    from Orders o
+    join Company c 
+    on (o.com_id = c.com_id) 
+    where c.name = 'RED' 
+)
+
+select s.name 
+from SalesPerson s 
+where s.sales_id not in 
+(select sales_id from red_sales);
