@@ -71,3 +71,9 @@ select s.name
 from SalesPerson s 
 where s.sales_id not in 
 (select sales_id from red_sales);
+
+-- 610 Traingle Judgement
+
+select *,
+if (x + y > z and y + z > x and z + x > y, "Yes", "No") 
+as triangle from triangle;
