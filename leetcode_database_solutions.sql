@@ -42,7 +42,7 @@ min(event_date)
 as first_login 
 from activity group by player_id;
 
--- 5885. Customer placing the largest number of orders
+-- 585. Customer placing the largest number of orders
 
 select customer_number 
 from orders 
@@ -72,8 +72,26 @@ from SalesPerson s
 where s.sales_id not in 
 (select sales_id from red_sales);
 
--- 610 Traingle Judgement
+-- 610. Traingle Judgement
 
 select *,
 if (x + y > z and y + z > x and z + x > y, "Yes", "No") 
 as triangle from triangle;
+
+-- 619. Biggest Single Number
+
+select max(num) as num
+from mynumbers
+where num in (
+    select num from 
+    MyNumbers group by num 
+    having count(num) = 1
+);
+
+-- 620. Not Boring Movies
+
+select * 
+from cinema 
+where id % 2 = 1 
+and description != 'boring' 
+order by rating desc;
