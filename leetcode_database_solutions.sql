@@ -95,3 +95,12 @@ from cinema
 where id % 2 = 1 
 and description != 'boring' 
 order by rating desc;
+
+-- 627. Swap sex of employee
+
+update salary set 
+sex = case 
+    when sex = 'm' then 'f'
+    else 'm'
+end;
+
