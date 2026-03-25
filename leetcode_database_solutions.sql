@@ -104,3 +104,9 @@ sex = case
     else 'm'
 end;
 
+--1050. Acotes and directors who cooperated atleast three times
+
+select actor_id, director_id 
+from actordirector 
+group by actor_id, director_id 
+having count(timestamp) >= 3;
