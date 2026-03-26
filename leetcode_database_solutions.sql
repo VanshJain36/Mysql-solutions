@@ -104,9 +104,30 @@ sex = case
     else 'm'
 end;
 
---1050. Acotes and directors who cooperated atleast three times
+-- 1050. Acotes and directors who cooperated atleast three times
 
 select actor_id, director_id 
 from actordirector 
 group by actor_id, director_id 
 having count(timestamp) >= 3;
+
+-- 1075. Project Employees
+
+select project_id, 
+round(avg(e.experience_years), 2) as average_years 
+from employee e 
+join project p 
+on 
+(p.employee_id = e.employee_id) 
+group by p.project_id;
+
+-- 1084. Sales analysis III
+
+select s.product_id, p.product_name 
+from sales s 
+join product p 
+on 
+(p.product_id = s.product_id) 
+group by s.product_id, p.product_name 
+having min(s.sale_date) >= '2019-01-01'  
+and max(s.sale_date) <= '2019-03-31';
