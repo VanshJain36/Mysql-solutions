@@ -131,3 +131,12 @@ on
 group by s.product_id, p.product_name 
 having min(s.sale_date) >= '2019-01-01'  
 and max(s.sale_date) <= '2019-03-31';
+
+-- 1141. User Activity for the Past 30 Days I
+
+select activity_date as day, 
+count(distinct user_id) as active_users
+from activity 
+where activity_date > '2019-06-27' 
+and activity_date <= '2019-07-27' 
+group by activity_date;
