@@ -159,3 +159,21 @@ select
     sum(case when month = 'Dec' then revenue end) as Dec_Revenue
 from department 
 group by id;
+
+-- 1211. Queries Quality and Percentage
+
+select query_name,
+round(avg(rating / position), 2) as quality, 
+round(avg(case when rating < 3 then 1 else 0 end) * 100, 2) as poor_query_percentage 
+from queries 
+group by query_name;
+
+-- 1251. Average Selling Price
+
+select p.product_id,
+ifNull(round(sum(u.units * p.price) / sum(u.units), 2), 0) as average_price 
+from prices p
+left join unitssold u  
+on (p.product_id = u.product_id) 
+and u.purchase_date between p.start_date and p.end_date 
+group by product_id;
