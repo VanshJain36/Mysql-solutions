@@ -177,3 +177,23 @@ left join unitssold u
 on (p.product_id = u.product_id) 
 and u.purchase_date between p.start_date and p.end_date 
 group by product_id;
+
+-- 1327. List the Products Ordered in a Period
+
+select p.product_name, sum(o.unit) as unit
+from products p 
+join orders o 
+on (p.product_id = o.product_id) 
+where o.order_date 
+between '2020-02-01' and '2020-02-29' 
+group by p.product_name
+having sum(o.unit) >= 100;
+
+-- 1407. Top Travellers
+
+select u.name, ifnull(sum(r.distance), 0) as travelled_distance 
+from users u 
+left join rides r 
+on u.id = r.user_id 
+group by r.user_id 
+order by travelled_distance desc, u.name asc;
