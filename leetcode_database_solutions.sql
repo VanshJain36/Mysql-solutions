@@ -197,3 +197,19 @@ left join rides r
 on u.id = r.user_id 
 group by r.user_id 
 order by travelled_distance desc, u.name asc;
+
+-- 1484. Group Sold Products By The Date
+
+select sell_date, 
+count(distinct product) as num_sold,
+group_concat(distinct product separator ',') as products 
+from activities 
+group by sell_date;
+
+-- 1517. Find Users With Valid E-Mails
+
+select * 
+from users 
+where
+mail regexp '^[a-zA-Z][a-zA-Z0-9_.-]*@leetcode\\.com$'
+and mail like binary '%@leetcode.com';
