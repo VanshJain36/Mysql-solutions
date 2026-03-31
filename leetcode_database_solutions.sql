@@ -213,3 +213,19 @@ from users
 where
 mail regexp '^[a-zA-Z][a-zA-Z0-9_.-]*@leetcode\\.com$'
 and mail like binary '%@leetcode.com';
+
+-- 1527. Patients With a Condition
+
+select * 
+from patients 
+where conditions like 'DIAB1%' 
+or conditions like '% DIAB1%';
+
+-- 1587. Bank Account Summary II
+
+select u.name, sum(t.amount) as balance 
+from users u 
+join transactions t 
+on (u.account = t.account) 
+group by t.account
+having balance > 10000;
