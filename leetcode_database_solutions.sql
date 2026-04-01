@@ -229,3 +229,18 @@ join transactions t
 on (u.account = t.account) 
 group by t.account
 having balance > 10000;
+
+-- 1633. Percentage of Users Attended a Contest
+
+select r.contest_id , 
+round(((count(r.contest_id)/ (select count(user_id) from users)) * 100), 2) as percentage 
+from register r 
+group by r.contest_id 
+order by percentage desc, contest_id asc;
+
+--1667. Fix Names in a Table
+
+select user_id, 
+concat(upper(left(name, 1)), lower(right(name,length(name) - 1))) as name 
+from users 
+order by user_id asc;
