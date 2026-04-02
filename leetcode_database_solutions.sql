@@ -244,3 +244,19 @@ select user_id,
 concat(upper(left(name, 1)), lower(right(name,length(name) - 1))) as name 
 from users 
 order by user_id asc;
+
+-- 1693. Daily Leads and Partners
+
+select date_id, 
+make_name, 
+count(distinct lead_id) as unique_leads, 
+count(distinct partner_id) as unique_partners 
+from dailysales 
+group by date_id, make_name;
+
+-- 1729. Find Followers Count
+
+select user_id, 
+count(distinct follower_id) as followers_count 
+from followers 
+group by user_id;
