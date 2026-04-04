@@ -279,3 +279,28 @@ emp_id,
 sum(out_time - in_time) as total_time 
 from employees 
 group by emp_id, event_day;
+
+-- 1789. Primary Department for Each Employee
+
+select employee_id, department_id
+from employee 
+where primary_flag = 'Y' 
+or employee_id in 
+(select employee_id 
+from employee 
+group by employee_id 
+having count(employee_id) = 1);
+
+-- 1795. Rearrange Products Table
+
+select product_id, 'store1' as store, store1 as price 
+from products 
+where store1 != 'null'
+union all
+select product_id, 'store2' as store, store2 as price 
+from products 
+where store2 != 'null'
+union all
+select product_id, 'store3' as store, store3 as price 
+from products 
+where store3 != 'null';
