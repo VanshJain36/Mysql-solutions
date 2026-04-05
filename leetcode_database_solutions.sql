@@ -304,3 +304,14 @@ union all
 select product_id, 'store3' as store, store3 as price 
 from products 
 where store3 != 'null';
+
+-- 1873. Calculate Special Bonus
+
+select employee_id, 
+case
+when employee_id % 2 = 0 then 0
+when left(name, 1) = 'M' then 0
+else salary
+end as bonus
+from employees
+order by employee_id;
