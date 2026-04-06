@@ -323,3 +323,30 @@ from logins
 where time_stamp 
 between '2020-01-01 00:00:00' and '2020-12-31 23:59:59' 
 group by user_id;
+
+-- 1965. Employees With Missing Information
+
+select e.employee_id
+from employees e 
+left join salaries s 
+on (e.employee_id = s.employee_id)
+where salary is null
+
+union
+
+select s.employee_id
+from salaries s
+left join employees e 
+on (s.employee_id = e.employee_id)
+where e.employee_id is null
+order by employee_id asc;
+
+-- 1978. Employees Whose Manager Left the Company
+
+select employee_id
+from employees
+where salary < 30000
+and manager_id 
+not in 
+    (select employee_id from employees)
+order by employee_id;
