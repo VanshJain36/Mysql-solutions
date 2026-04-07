@@ -350,3 +350,24 @@ and manager_id
 not in 
     (select employee_id from employees)
 order by employee_id;
+
+-- 2356. Number of Unique Subjects Taught by Each Teacher
+
+select teacher_id, count(distinct subject_id) as cnt
+from teacher
+group by teacher_id;
+
+-- 3436. Find Valid Emails
+
+select user_id, email
+from users
+where email 
+regexp '^[A-Za-z0-9_]+@[A-Za-z]+\\.com$'
+order by user_id;
+
+-- 3465. Find Products with Valid Serial Numbers
+
+select *
+from products
+where regexp_like(description, '(^|[^A-Za-z0-9])SN[0-9]{4}-[0-9]{4}([^A-Za-z0-9]|$)', 'c')
+order by product_id;
