@@ -371,3 +371,23 @@ select *
 from products
 where regexp_like(description, '(^|[^A-Za-z0-9])SN[0-9]{4}-[0-9]{4}([^A-Za-z0-9]|$)', 'c')
 order by product_id;
+
+-- 3570. Find Books with No Available Copies
+
+select l.book_id, l.title, l.author, l.genre, l.publication_year, (l.total_copies) as current_borrowers 
+from library_books l 
+join borrowing_records b 
+on (l.book_id = b.book_id)
+where b.return_date is null
+group by l.book_id
+having count(*) = l.total_copies
+order by current_borrowers desc, l.title;
+
+--3793. Find Users with High Token Usage
+
+select user_id, count(prompt) as prompt_count, round(avg(tokens),2) as avg_tokens
+from prompts
+group by user_id
+having prompt_count > 2
+and max(tokens) > avg_tokens
+order by avg_tokens desc, user_id asc;
