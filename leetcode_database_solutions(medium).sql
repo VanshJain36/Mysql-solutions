@@ -18,7 +18,7 @@ BEGIN
   );
 END
 
-  -- 178. Rank Scores
+-- 178. Rank Scores
 
 SELECT score, DENSE_RANK() OVER (ORDER BY score DESC) as 'rank'
 FROM Scores;
@@ -42,4 +42,32 @@ where (e.departmentid, e.salary) in (
     select departmentid, max(salary) 
     from employee 
     group by departmentid
+);
+
+-- 570. Managers with at Least 5 Direct Reports
+
+select name 
+from employee 
+where id in (
+    select managerid 
+    from employee
+    group by managerid
+    having count(*) >= 5 
+)
+
+-- 585. Investments in 2016
+  
+select round(sum(tiv_2016),2) as tiv_2016
+from insurance
+where (lat, lon) in (
+    select lat, lon
+    from insurance
+    group by lat, lon
+    having count(*) = 1
+)
+and tiv_2015 in (
+    select tiv_2015
+    from insurance
+    group by tiv_2015
+    having count(*) > 1
 );
