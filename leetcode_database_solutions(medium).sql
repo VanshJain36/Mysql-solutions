@@ -71,3 +71,34 @@ and tiv_2015 in (
     group by tiv_2015
     having count(*) > 1
 );
+
+-- 602. Friend Requests II: Who Has the Most Friends
+  
+with num1 as(
+    (
+        select requester_id as id, count(requester_id) as num 
+        from requestaccepted 
+        group by requester_id
+    )
+union all
+    (
+        select accepter_id as id, count(accepter_id) as num 
+        from requestaccepted 
+        group by accepter_id
+    )
+)
+select id, sum(num) as num
+from num1
+group by id
+order by num desc
+limit 1;
+
+-- 608. Tree Node
+
+select id, 
+case
+when p_id is null then 'Root'
+when id in (select p_id from tree) then 'Inner'
+else 'Leaf'
+end as type
+from tree;
