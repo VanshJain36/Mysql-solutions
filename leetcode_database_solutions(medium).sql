@@ -119,3 +119,17 @@ select c.customer_id
 from customer c
 group by c.customer_id
 having count(distinct c.product_key) = (select count(p.product_key) from product p);
+
+-- 1070. Product sales analysis III
+
+with cte as (
+    select product_id, min(year) as first_year
+    from sales
+    group by product_id
+)
+
+select product_id, year as first_year, quantity, price
+from sales
+where (product_id, year) in (
+    select * from cte
+);
