@@ -102,3 +102,20 @@ when id in (select p_id from tree) then 'Inner'
 else 'Leaf'
 end as type
 from tree;
+
+-- 626. Exchange Seats
+
+select case
+when id % 2 != 0 and id != (select max(id) from seat) then id + 1
+when id % 2 = 0 then id - 1
+else id
+end as id, student
+from seat 
+order by id asc;
+
+-- 1045. Customers Who Bought All Products
+
+select customer_id 
+from customer 
+group by customer_id
+having count(distinct product_key) = (select count(product_key) from product);
