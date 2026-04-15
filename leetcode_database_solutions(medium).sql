@@ -133,3 +133,32 @@ from sales
 where (product_id, year) in (
     select * from cte
 );
+
+-- 1158. Market Analysis I
+
+select u.user_id as buyer_id, u.join_date, count(o.buyer_id) as orders_in_2019
+from users u 
+left join orders o 
+on o.buyer_id = u.user_id 
+and o.order_date >= '2019-01-01' and o.order_date <= '2019-12-31'
+group by u.user_id;
+
+-- 1164. Product Price at a Given Date
+
+select distinct product_id, 10 as price 
+from products 
+where product_id 
+not in (
+    select distinct product_id 
+    from products
+    where change_date <= '2019-08-16' 
+)
+union
+select product_id, new_price as price 
+from products 
+where (product_id, change_date) in (
+    select product_id, max(change_date)
+    from products
+    where change_date <= '2019-08-16'
+    group by product_id
+);
