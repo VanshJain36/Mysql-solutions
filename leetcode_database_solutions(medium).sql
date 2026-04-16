@@ -162,3 +162,24 @@ where (product_id, change_date) in (
     where change_date <= '2019-08-16'
     group by product_id
 );
+
+-- 1174. Immediate Food Delivery II
+
+select round((avg(order_date = customer_pref_delivery_date)) * 100, 2) as immediate_percentage
+from delivery
+where (customer_id, order_date) in (
+    select customer_id, min(order_date)
+    from delivery
+    group by customer_id
+);
+
+-- 1193. Monthly Transactions I
+
+select left(trans_date, 7) as month, 
+country, 
+count(id) as trans_count, 
+sum(state = 'approved') as approved_count, 
+sum(amount) as trans_total_amount, 
+sum((state = 'approved') *  amount) as approved_total_amount
+from transactions
+group by month, country;
