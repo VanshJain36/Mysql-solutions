@@ -183,3 +183,25 @@ sum(amount) as trans_total_amount,
 sum((state = 'approved') *  amount) as approved_total_amount
 from transactions
 group by month, country;
+
+-- 1204. Last Person to Fit in the Bus
+
+select person_name from
+(
+    select person_name, sum(weight) over (order by turn) as total_weight
+    from queue  
+) as t
+where total_weight <= 1000
+order by total_weight desc
+limit 1;
+
+-- 1321. Restaurant Growth
+
+select distinct visited_on, sum(amount) over w as amount, 
+round(((sum(amount) over w)/ 7),2) as average_amount
+from customer
+window w as (
+    order by visited_on
+    range between interval 6 day preceding and current row
+)
+limit 999 offset 6;
