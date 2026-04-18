@@ -205,3 +205,47 @@ window w as (
     range between interval 6 day preceding and current row
 )
 limit 999 offset 6;
+
+--  1341. Movie Rating
+
+(select u.name as results
+from users u 
+join movierating mr 
+on (u.user_id = mr.user_id)
+group by mr.user_id
+order by count(*) desc, u.name
+limit 1
+)
+
+union all
+
+(select m.title as results
+from movies m 
+join movierating mr 
+on (m.movie_id = mr.movie_id)
+where mr.created_at >= '2020-02-01' and mr.created_at <=  '2020-02-29'
+group by m.title
+order by avg(rating) desc, m.title
+limit 1
+);
+
+-- 1393. Capital Gain/Loss
+
+with stock_sum as(
+    select stock_name, sum(price) as capital_gain_loss
+    from stocks
+    where operation = 'Buy'
+    group by stock_name
+),
+
+    stock_diff as(
+    select stock_name, sum(price) as capital_gain_loss
+    from stocks
+    where operation = 'Sell'
+    group by stock_name
+)
+
+select ss.stock_name, sd.capital_gain_loss - ss.capital_gain_loss as capital_gain_loss
+from stock_sum ss
+join stock_diff sd
+on (ss.stock_name =  sd.stock_name);
