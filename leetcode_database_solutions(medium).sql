@@ -249,3 +249,29 @@ select ss.stock_name, sd.capital_gain_loss - ss.capital_gain_loss as capital_gai
 from stock_sum ss
 join stock_diff sd
 on (ss.stock_name =  sd.stock_name);
+
+-- 1907. Count Salary Categories
+
+select 'Low Salary' as category,
+sum(income < 20000) as accounts_count
+from accounts
+
+union all
+
+select 'Average Salary' as category,
+sum(income <= 50000 and income >= 20000) as accounts_count
+from accounts
+
+union all
+
+select 'High Salary' as category,
+sum(income > 50000) as accounts_count
+from accounts;
+
+-- 1934. Confirmation Rate
+
+select s.user_id , round(avg(if(c.action = 'confirmed', 1, 0)), 2) as confirmation_rate
+from signups s
+left join confirmations c
+on (s.user_id = c.user_id)
+group by user_id;
