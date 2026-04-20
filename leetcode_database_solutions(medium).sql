@@ -284,3 +284,19 @@ sum(case when amount % 2 = 0 then amount else 0 end) as even_sum
 from transactions
 group by transaction_date
 order by transaction_date asc;
+
+-- 3475. DNA Pattern Recognition 
+
+select sample_id, 
+dna_sequence, 
+species, 
+sum(if(dna_sequence like 'ATG%', 1, 0)) as has_start,
+
+(dna_sequence LIKE '%TAA' 
+        OR dna_sequence LIKE '%TAG' 
+        OR dna_sequence LIKE '%TGA') AS has_stop,
+
+sum(if(dna_sequence like '%ATAT%', 1, 0)) as has_atat,
+sum(if(dna_sequence like '%GGG%', 1, 0)) as has_ggg
+from samples
+group by dna_sequence;
