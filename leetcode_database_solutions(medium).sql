@@ -300,3 +300,43 @@ sum(if(dna_sequence like '%ATAT%', 1, 0)) as has_atat,
 sum(if(dna_sequence like '%GGG%', 1, 0)) as has_ggg
 from samples
 group by dna_sequence;
+
+-- 3497. Analyze Subscription Conversion 
+
+with free as (
+    select user_id, round(avg(activity_duration), 2) as trial_avg_duration
+    from useractivity
+    where activity_type = 'free_trial'
+    group by user_id
+),
+
+paid as(
+    select user_id, round(avg(activity_duration), 2) as paid_avg_duration
+    from useractivity
+    where activity_type = 'paid'
+    group by user_id
+)
+
+select p.user_id, f.trial_avg_duration, p.paid_avg_duration
+from paid p
+join free f
+on (p.user_id = f.user_id);
+
+-- 3521. Find Product Recommendation Pairs
+
+select p1.product_id as product1_id,
+p2.product_id as product2_id,
+i1.category as product1_category,
+i2.category as product2_category,
+count(p1.user_id) as customer_count
+from ProductPurchases p1
+inner join ProductPurchases p2 
+on (p1.user_id = p2.user_id)
+and p1.product_id < p2.product_id
+left join productinfo i1
+on (p1.product_id = i1.product_id)
+left join productinfo i2
+on (p2.product_id = i2.product_id)
+group by product1_id, product2_id
+having customer_count > 2
+order by customer_count desc, product1_id, product2_id;
