@@ -340,3 +340,30 @@ on (p2.product_id = i2.product_id)
 group by product1_id, product2_id
 having customer_count > 2
 order by customer_count desc, product1_id, product2_id;
+
+-- 3580. Find Consistently Improving Employees
+
+with review_rank as(
+    select p.employee_id, e.name, p.review_date, p.rating,
+    dense_rank() over (partition by p.employee_id order by p.review_date desc) as rnk
+    from performance_reviews p
+    join employees e
+    on (e.employee_id = p.employee_id)
+),
+last3 as (
+    select * 
+    from review_rank
+    where rnk <= 3
+),
+increase as (
+    select *,
+    lag(rating, 1) over (partition by employee_id order by review_date) as prev,
+    lag(rating, 2) over (partition by employee_id order by review_date) as prev2
+    from last3
+)
+select employee_id, name, rating - prev2 as improvement_score
+from increase
+where prev is not null
+and rating > prev
+and prev > prev2
+order by improvement_score desc, name asc;
