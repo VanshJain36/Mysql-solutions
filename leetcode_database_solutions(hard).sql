@@ -28,3 +28,32 @@ and u2.banned = 'No'
 where request_at between '2013-10-01' and '2013-10-03'
 group by request_at
 order by request_at asc;
+
+-- 601. Human Traffic of Stadium
+
+select * 
+from stadium
+where id in (
+    select s1.id
+    from stadium s1
+    join stadium s2 on s1.id = s2.id - 1
+    join stadium s3 on s2.id = s3.id - 1
+    where s1.people >= 100 and s2.people >= 100 and s3.people >= 100
+
+    union
+
+    select s2.id
+    from stadium s1
+    join stadium s2 on s1.id = s2.id - 1
+    join stadium s3 on s2.id = s3.id - 1
+    where s1.people >= 100 and s2.people >= 100 and s3.people >= 100
+
+    union
+
+    select s3.id
+    from stadium s1
+    join stadium s2 on s1.id = s2.id - 1
+    join stadium s3 on s2.id = s3.id - 1
+    where s1.people >= 100 and s2.people >= 100 and s3.people >= 100
+)
+group by visit_date;
